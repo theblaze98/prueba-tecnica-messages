@@ -8,8 +8,10 @@ interface CreateMessageData {
   message: string
 }
 
+const connect = connectionDB()
+
 export const createMessage = async (data: CreateMessageData) => {
-  const db = await connectionDB()
+  const db = await connect
   const id = uuid()
   const message = db.insert(MessagesTable).values({id, ...data}).returning()
 
@@ -17,7 +19,7 @@ export const createMessage = async (data: CreateMessageData) => {
 }
 
 export const getMessages = async () => {
-  const db = await connectionDB()
+  const db = await connect
   const messages = db.select().from(MessagesTable)
   return messages
 }
